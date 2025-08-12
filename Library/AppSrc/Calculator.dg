@@ -1,0 +1,298 @@
+Use Windows.pkg
+Use cCalculatorButton.Pkg
+
+Define KEY_DOT      for |VI$802E
+Define KEY_COMMA    for |VI$802C
+Define KEY_MULTIPLY for |VI$802A
+
+Object oCalculatorDialog is a ModalPanel
+    { DesignTime = False }
+    Property Boolean pbSelected
+
+    Set Border_Style to Border_Normal
+    Set Label to "Enter Expression"
+    Set Location to 2 6
+    Set Size to 87 217
+    Set piMinSize to 87 217
+    
+    Procedure Page_Object Boolean bPage
+        Forward Send Page_Object bPage
+        
+        If (bPage) Begin
+            Set Icon to "Calculator.Ico"            
+        End
+    End_Procedure
+
+    Object oOkButton is a Button
+        Set Label to C_$OK
+        Set Location to 52 155
+
+        Procedure OnClick
+            Set pbSelected To True
+
+            Send Close_Panel
+        End_Procedure
+    End_Object
+
+    Object oCancelButton is a Button
+        Set Label to C_$Cancel
+        Set Location to 68 155
+
+        Procedure OnClick
+            Send Close_Panel
+        End_Procedure
+    End_Object
+
+    Object oExpressionForm is a Form
+        Set Size to 13 201
+        Set Location to 5 5
+        Set Color to clBtnFace
+        Set Form_Justification_Mode 0 to jMode_Right
+        
+        Procedure Key Integer iKeyVal
+            // Block all key
+        End_Procedure
+        
+        Procedure AddCharacters String sCharacters
+            String sValue
+        
+            Set Enabled_State of oOkButton to False
+        
+            Get Value To sValue
+        
+            If (sCharacters <> "<-") Begin
+                Move (sValue + sCharacters) to sValue
+            End
+            Else Begin
+                Move (Left (sValue, Length (sValue) - 1)) To sValue
+            End
+        
+            Set Value To sValue
+        End_Procedure
+        
+        Procedure Error_Report Integer iError Integer iErrLine String sErrMsg
+            // No Errors Please
+        End_Procedure
+        
+        Procedure RunExpression
+            String sValue sResult
+            Handle hoError hWnd
+            Integer iVoid
+        
+            Move Error_Object_Id To hoError
+            Move Self To Error_Object_Id
+        
+            Get Value To sValue
+            Move (Eval (sValue)) To sResult
+        
+            If (Err) Begin
+                Set TextColor To clRed
+                Set Value To "Error in expression!"
+                Get Window_Handle To hWnd
+                Move (UpdateWindow (hWnd)) To iVoid
+                Sleep 2
+                Set TextColor To clBlack
+                Set Value To sValue
+            End
+        
+            Set Enabled_State of oOkButton to (not (Err))
+        
+            Move hoError To Error_Object_Id
+        
+            Set Value To sResult
+        End_Procedure
+    End_Object
+    
+    Procedure DisplayCurrentValue Real rCurrentValue
+        If (rCurrentValue <> 0) Begin
+            Set Value of oExpressionForm to rCurrentValue
+        End
+        Else Begin
+            Send ClearExpressionForm
+        End
+    End_Procedure
+    
+    Procedure ClearExpressionForm
+        Set Value of oExpressionForm to ""
+    End_Procedure
+
+    Object oOneButton is a cCalculatorButton
+        Set Label to "1"
+        Set Size to 14 14
+        Set Location to 20 5
+    End_Object
+
+    Object oTwoButton is a cCalculatorButton
+        Set Label to "2"
+        Set Size to 14 14
+        Set Location to 20 24
+    End_Object
+
+    Object oThreeButton is a cCalculatorButton
+        Set Label to "3"
+        Set Size to 14 14
+        Set Location to 20 43
+    End_Object
+
+    Object oFourButton is a cCalculatorButton
+        Set Label to "4"
+        Set Size to 14 14
+        Set Location to 36 5
+    End_Object
+
+    Object oFiveButton is a cCalculatorButton
+        Set Label to "5"
+        Set Size to 14 14
+        Set Location to 36 24
+    End_Object
+
+    Object oSixButton is a cCalculatorButton
+        Set Label to "6"
+        Set Size to 14 14
+        Set Location to 36 43
+    End_Object
+
+    Object oSevenButton is a cCalculatorButton
+        Set Label to "7"
+        Set Size to 14 14
+        Set Location to 52 5
+    End_Object
+
+    Object oEightButton is a cCalculatorButton
+        Set Label to "8"
+        Set Size to 14 14
+        Set Location to 52 24
+    End_Object
+
+    Object oNineButton is a cCalculatorButton
+        Set Label to "9"
+        Set Size to 14 14
+        Set Location to 52 43
+    End_Object
+
+    Object oZeroButton is a cCalculatorButton
+        Set Label to "0"
+        Set Size to 14 52
+        Set Location to 68 5
+    End_Object
+
+    Object oPlusButton is a cCalculatorButton
+        Set Label to "+"
+        Set Size to 14 14
+        Set Location to 20 72
+    End_Object
+
+    Object oMinusButton is a cCalculatorButton
+        Set Label to "-"
+        Set Size to 14 14
+        Set Location to 36 72
+    End_Object
+
+    Object oDivideButton is a cCalculatorButton
+        Set Label to "/"
+        Set Size to 14 14
+        Set Location to 52 72
+    End_Object
+
+    Object oMultiplyButton is a cCalculatorButton
+        Set Label to "*"
+        Set Size to 14 14
+        Set Location to 68 72
+    End_Object
+
+    Object oParenthesesOpenButton is a cCalculatorButton
+        Set Label to "("
+        Set Size to 14 14
+        Set Location to 20 91
+    End_Object
+
+    Object oParenthesesCloseButton is a cCalculatorButton
+        Set Label to ")"
+        Set Size to 14 14
+        Set Location to 36 91
+    End_Object
+
+    Object oBackspaceButton is a cCalculatorButton
+        Set Label to "<-"
+        Set Size to 14 14
+        Set Location to 52 91
+    End_Object
+
+    Object oDotButton is a cCalculatorButton
+        Set Label to "."
+        Set Size to 14 14
+        Set Location to 68 91
+    End_Object
+
+    Object oPowerOfButton is a cCalculatorButton
+        Set Label to "^"
+        Set Size to 14 14
+        Set Location to 20 110
+    End_Object
+
+    Object oClearButton is a cCalculatorButton
+        Set Label to "C"
+        Set Size to 62 14
+        Set Location to 20 129
+
+        Procedure OnClick
+            Send ClearExpressionForm
+        End_Procedure
+    End_Object
+
+    Object oCalcButton is a Button
+        Set Label to "="
+        Set Location to 21 155
+
+        Procedure OnClick
+            Send RunExpression of oExpressionForm
+        End_Procedure
+    End_Object
+
+    Procedure AddValue String sCharacters
+        Send AddCharacters of oExpressionForm sCharacters
+    End_Procedure
+    
+    On_Key Key_1 Send KeyAction Of oOneButton
+    On_Key Key_2 Send KeyAction Of oTwoButton
+    On_Key Key_3 Send KeyAction Of oThreeButton
+    On_Key Key_4 Send KeyAction Of oFourButton
+    On_Key Key_5 Send KeyAction Of oFiveButton
+    On_Key Key_6 Send KeyAction Of oSixButton
+    On_Key Key_7 Send KeyAction Of oSevenButton
+    On_Key Key_8 Send KeyAction Of oEightButton
+    On_Key Key_9 Send KeyAction Of oNineButton
+    On_Key Key_0 Send KeyAction Of oZeroButton
+    On_Key Key_Plus Send KeyAction of oPlusButton
+    On_Key Key_Minus Send KeyAction Of oMinusButton
+    On_Key Key_Slash Send KeyAction Of oDivideButton
+    On_Key Key_Equal Send KeyAction Of oCalcButton
+    On_Key Key_Shift+Key_Equal Send KeyAction of oPlusButton
+    On_Key Key_Shift+Key_6 Send KeyAction of oPowerOfButton
+    On_Key Key_Shift+Key_8 Send KeyAction Of oMultiplyButton
+    On_Key Key_Shift+Key_9 Send KeyAction Of oParenthesesOpenButton
+    On_Key Key_Shift+Key_0 Send KeyAction Of oParenthesesCloseButton
+    On_Key Key_Back_Space Send KeyAction Of oBackspaceButton
+    On_Key Key_Dot Send KeyAction of oDotButton
+    On_Key Key_Alt+Key_O Send KeyAction of oOKbutton
+    On_Key Key_Alt+Key_C Send KeyAction of oCancelbutton
+    On_Key Key_Escape Send KeyAction of oCancelbutton
+    On_Key Key_Multiply Send KeyAction of oMultiplyButton
+    
+    Function CalculatedResult Real rValue Returns Real
+        Boolean bSelected
+    
+        Set Enabled_State of oOkButton to False
+        
+        Set pbSelected To False
+        Send DisplayCurrentValue rValue
+        Send Popup_Modal
+        
+        Get pbSelected To bSelected
+        If (bSelected) Begin
+            Get Value of oExpressionForm to rValue
+        End
+    
+        Function_Return rValue
+    End_Function
+End_Object

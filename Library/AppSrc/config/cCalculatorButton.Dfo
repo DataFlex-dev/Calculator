@@ -1,0 +1,7 @@
+//AB/ OBJECTDEF
+Object 
+    //AB-StoreStart
+    // Class is defined in cCalculatorButton.Pkg
+    //Add your preference methods here
+    //AB-StoreEnd
+End_Object

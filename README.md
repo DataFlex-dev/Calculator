@@ -1,21 +1,18 @@
-# Library Template
+# Calculator Library
+
+With the new Calculator Library you can embed a popup calculator in your DataFlex applications without opening one in Windows or on your phone! Enter an expression or calculate a result with the in-app keypad, click OK and the result will automatically be placed directly in your (db)Form or c(db)CJGridColumn cell.
+
+The Calculator Library contains packages, an icon and a demo program for testing. 
 
 ---
 
 ## Library Information
 
-This repository is a template for developing DataFlex Libraries. The `Library` directory should contain the library, and the `Demo` directory should be a demo workspace that uses the library. (Optional) the `help` directory can be used for documentation and release notes.
+This repository contains a Library directory where the source for the Calculator library is, and the Demo directory where you can find a demo workspace that uses the library.
 
-###### External Components
-
-If applicable, list the external components used in the table below:
-
-| Component | Version |
-| --------- | ------- |
-|           |         |
 
 ## General Information
 
 | Product  | Version           |
 | -------- | ----------------- |
-| DataFlex | 23.0, 24.0, 25.0  |
+| DataFlex |  25.0  |

@@ -1,0 +1,16 @@
+=================================================
+Welcome to the DataFlex Calculator Library 
+=================================================
+
+This release is for the DataFlex 2025 (v25.0).
+
+Release date: 2025, March
+
+Update code to v25.0.
+
+==================================================================
+Please report any bugs or suggestions to via the Data Access
+forums at http://support.dataaccess.com/forums
+====================================================================
+We hope you enjoy the use of the DataFlex Calculator Library!
+====================================================================
